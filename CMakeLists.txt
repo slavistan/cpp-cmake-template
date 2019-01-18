@@ -5,17 +5,20 @@ cmake_minimum_required(VERSION 3.11)
 ##
 option(DEVELOPER_MODE "Increases compiler verbosity and raises warnings to errors" OFF)
 if(DEVELOPER_MODE)
-  # Setup usage of clang-tidy
-  find_program(CLANG_TIDY_EXE NAMES "clang-tidy" DOC "Path to clang-tidy")
+  find_program(
+    CLANG_TIDY_EXE
+    NAMES "clang-tidy"
+    DOC "Path to clang-tidy")
   if(NOT CLANG_TIDY_EXE)
     message(STATUS "clang-tidy not found")
   else()
     message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
     set(DO_CLANG_TIDY
       "${CLANG_TIDY_EXE}"
-      "-checks='bugprone*,cppcoreguidelines*,cert*,google*,hicpp*,llvm*,misc*,modernize*,performance*,readability*'")
+      "-checks=bugprone-*,cppcoreguidelines-*,clang-analzer-*,cert-*,google-*,hicpp-*,llvm-*,misc-*,modernize-*,performance-*,readability-*,-google-readability-namespace-comments,-llvm-namespace-comment"
+      "-header-filter=${CMAKE_SOURCE_DIR}/include")
   endif()
-  # Enable maximum level of error warnings for common compilers
+
   if(MSVC)
     add_compile_options(/W3 /Wx)
   else()
