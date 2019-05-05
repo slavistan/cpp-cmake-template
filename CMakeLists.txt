@@ -1,35 +1,29 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.12)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-##
-## Developer Mode: Raise warnings to errors and, if available, utilize clang-tidy
-##
-option(DEVELOPER_MODE "Increases compiler verbosity and raises warnings to errors" OFF)
-if(DEVELOPER_MODE)
-  find_program(
-    CLANG_TIDY_EXE
-    NAMES "clang-tidy"
-    DOC "Path to clang-tidy")
-  if(NOT CLANG_TIDY_EXE)
-    message(STATUS "clang-tidy not found")
-  else()
-    message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
-    set(DO_CLANG_TIDY
-      "${CLANG_TIDY_EXE}"
-      "-checks=bugprone-*,cppcoreguidelines-*,clang-analzer-*,cert-*,google-*,hicpp-*,llvm-*,misc-*,modernize-*,performance-*,readability-*,-google-readability-namespace-comments,-llvm-namespace-comment"
-      "-header-filter=${CMAKE_SOURCE_DIR}/include")
-  endif()
+# MS-GSL: Configure behaviour of violations of pre- and post-conditions for debug and release builds (Expects & Ensures).
+add_compile_definitions($<IF:$<CONFIG:Debug>,GSL_TERMINATE_ON_CONTRACT_VIOLATION,GSL_UNENFORCED_ON_CONTRACT_VIOLATION>)
 
-  if(MSVC)
-    add_compile_options(/W3 /Wx)
-  else()
-    add_compile_options(-Wall -Wpedantic -Werror)
-  endif()
+#
+# Custom make targets to run external tools
+#
+# (Custom make targets.A) clang-tidy
+#
+find_program(RUN_CLANG_TIDY_EXECUTABLE
+             NAMES "run-clang-tidy.py"
+             DOC "Path to the run-clang-tidy.py executable.")
+if (RUN_CLANG_TIDY_EXECUTABLE)
+  message(STATUS "run-clang-tidy found at '${RUN_CLANG_TIDY_EXECUTABLE}'.")
+  add_custom_target(clang-tidy run-clang-tidy.py -checks="*" -header-filter=".*")
+endif()
+# 2. (Custom make targets.B) cppcheck
+find_program(CPPCHECK_EXECUTABLE
+             NAMES "cppcheck"
+             DOC "Path to the cppcheck executable.")
+if (CPPCHECK_EXECUTABLE)
+  message(STATUS "cppcheck found at '${CPPCHECK_EXECUTABLE}'.")
+  add_custom_target(cppcheck cppcheck --max-ctu-depth=3 --enable="all" --inconclusive --project=compile_commands.json)
 endif()
 
-# Declare project
-project(my-example-project)
-
-# Put all executables into the build directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
-
-add_subdirectory(src)
+add_executable(test main.cpp)
