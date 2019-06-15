@@ -14,5 +14,3 @@ endif()
 
 # include external tools
 include(cmake/external-tools.cmake)
-
-add_executable(test main.cpp)
