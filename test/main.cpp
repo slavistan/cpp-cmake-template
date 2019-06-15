@@ -9,21 +9,17 @@ class Foo
   privFunc_()
   {
   }
-  int priv_ar_;
+  int priv_ar_ = 1;
 
  public:
   Foo()
   {
   }
 
-  Foo(int n)
-  {
-  }
-  void
-  pubFunc()
-  {
-  }
-  int pub_ar2;
+  explicit Foo(int n) {}
+
+  void pubFunc() {}
+  int pub_ar2 = 2;
 };
 
 int
