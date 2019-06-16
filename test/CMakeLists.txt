@@ -1,5 +1,5 @@
 # define the unit test executable
-add_executable(test tests.cpp)
+add_executable(unit-tests unit-tests.cpp)
 
-# explicitly state the dependency on our header-only library, or the included headers won't be found
-target_link_libraries(test PRIVATE myproject)
+# explicitly state the dependency on the targets your're referencing
+target_link_libraries(unit-tests BookShelf Clock)
