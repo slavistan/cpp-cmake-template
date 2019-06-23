@@ -1,22 +1,15 @@
 #include <iostream>
 
-#include <bookshelf-core.hpp>
-#include <clock-core.hpp>
+#define CATCH_CONFIG_MAIN
+#include <catch.hpp>
 
-#include <Eigen/Dense>
+unsigned int Factorial( unsigned int number ) {
+    return number <= 1 ? number : Factorial(number-1)*number;
+}
 
-auto lambda = [](int a) { return a; };
-auto genlambda = [](auto a) { return a; };
-
-int main()
-{
-
-  auto mat = Eigen::MatrixXd(2, 2);
-
-  SaltShaker::BookShelf::foo();
-  SaltShaker::Clock::bar();
-
-  std::cout << "Hello World!" << std::endl;
-  std::cout << "a = " << lambda(44) << std::endl;
-  std::cout << "b = " << genlambda(43) << std::endl;
+TEST_CASE( "Factorials are computed", "[factorial]" ) {
+    REQUIRE( Factorial(1) == 1 );
+    REQUIRE( Factorial(2) == 2 );
+    REQUIRE( Factorial(3) == 6 );
+    REQUIRE( Factorial(10) == 3628800 );
 }
