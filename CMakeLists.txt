@@ -30,7 +30,12 @@ target_link_libraries(Clock
 # Miscellaneous targets related to this project but not required for its usage (such as unit-tests).
 option(BUILD_TESTS "Build tests" ON)
 if(BUILD_TESTS)
-    add_subdirectory(test)
+    add_subdirectory(unit-tests)
+endif()
+
+option(BUILD_TOOLS "Build tools" ON)
+if(BUILD_TOOLS)
+    add_subdirectory(tools)
 endif()
 
 # include external tools

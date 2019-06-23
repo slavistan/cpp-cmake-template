@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace SaltShaker::BookShelf 
+namespace SaltShaker::BookShelf
 {
 
 template <typename T = int, typename U = double>

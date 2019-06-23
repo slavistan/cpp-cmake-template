@@ -1,16 +1,17 @@
 #pragma once
 
-#include <bookshelf-core.hpp>
-
 #include <iostream>
+
+#include <bookshelf-core.hpp>
 
 namespace SaltShaker::Clock
 {
 
-template <typename T = void>
+template <typename T = int>
 void bar()
 {
   std::cout << "'SaltShaker::Clock()' here!" << std::endl;
+  SaltShaker::BookShelf::foo();
 }
 
 }
