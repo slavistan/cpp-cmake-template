@@ -2,13 +2,28 @@
 
 #include <iostream>
 
-namespace SaltShaker::BookShelf
+namespace saltshaker::bookshelf
 {
 
+class MyClass {
+  public:
+    const int defaultAge = 24;
+    int age = defaultAge;
+};
+
+template <typename CamelCase = void>
+void foo() {}
+
 template <typename T = int, typename U = double>
-void foo(T&& t = 100, U&& u = 3.14)
+void foo(T&& t, U&& u)
 {
-  std::cout << "You called 'SaltShaker::BookShelf()'" << std::endl;
+  const int x = 314;
+  if ( t == x ) {
+    std::cout << "yo";
+  }
+
+  std::cout << "You called 'saltShaker::bookshelf::foo()'" << std::endl;
+  std::cout << "t = " << t << ", y = " << u << std::endl;
 }
 
 }

@@ -3,3 +3,4 @@ build_release
 .clangd
 build-debug
 compile_commands.json
+build

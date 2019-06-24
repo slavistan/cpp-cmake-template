@@ -2,6 +2,11 @@
 
 #include <clara.hpp>
 
+class MyClass {
+  public:
+    int MyAge = 24;
+};
+
 int main(int argc, char** argv)
 {
   bool showHelp = false;
