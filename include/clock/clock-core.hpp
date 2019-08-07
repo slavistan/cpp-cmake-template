@@ -11,7 +11,7 @@ template <typename T = int>
 void bar()
 {
   std::cout << "'SaltShaker::Clock()' here!" << std::endl;
-  SaltShaker::BookShelf::foo();
+  saltshaker::bookshelf::foo();
 }
 
 }

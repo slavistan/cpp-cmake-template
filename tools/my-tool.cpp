@@ -2,6 +2,8 @@
 
 #include <clara.hpp>
 
+#include <eigen3/Eigen/Sparse>
+
 class MyClass {
   public:
     int MyAge = 24;
